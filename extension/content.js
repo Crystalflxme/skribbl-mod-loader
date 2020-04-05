@@ -29,7 +29,12 @@ function addStylesheetRules(rules) {
 addStylesheetRules([
     ["body",
         ["color", "#ccc"],
-        ["background-color", "#2f2f2f"]
+        ["background", "none"],
+        ["background-color", "#171717"]
+    ],
+    [".btn:hover",
+        ["background", "#3c3c3c"],
+        ["border-color", "#d3d3d3"]
     ],
     [".loginPanelContent",
         ["background-color", "#2f2f2f"]
@@ -39,6 +44,9 @@ addStylesheetRules([
     ],
     [".informationTabs a",
         ["color", "#ccc"]
+    ],
+    [".informationTabs a:active",
+        ["color", "#adadad"]
     ],
     [".form-control",
         ["background-color", "#1f1f1f"],
@@ -65,10 +73,13 @@ addStylesheetRules([
     ],
     [".lobbySettings .lobbyName",
         ["background-color", "#1f1f1f"],
+        ["border", "0px"],
+        ["border-bottom", "1px solid #d3d3d3"],
         ["color", "#ccc"]
     ],
     [".lobbySettings .lobbyContent",
         ["background-color", "#2f2f2f"],
+        ["border", "0px"],
         ["color", "#ccc"]
     ],
     ["#invite, .invite-overlay",
@@ -80,7 +91,7 @@ addStylesheetRules([
         ["color", "#ccc"]
     ],
     [".invite-overlay",
-        ["color", "#ccc"]
+        ["color", "#add8e6"]
     ], 
     ["#boxChat, #containerChat",
         ["background", "#2f2f2f"]
@@ -100,7 +111,25 @@ addStylesheetRules([
     ["#containerGamePlayers .player .info",
         ["color", "#ccc"]
     ],
+    ["#containerGamePlayers .player .rank",
+        ["color", "#ccc"]
+    ],
     ["#timer",
         ["color", "#1f1f1f"]
     ],
+    ["#containerGamePlayers .player .message .content",
+        ["background-color", "#2f2f2f"]
+    ],
+    ["#containerGamePlayers .player .message .content .text",
+        ["color", "#ccc"]
+    ],
+    ["#containerGamePlayers .player .message .arrow",
+        ["border-right", "10px solid #2f2f2f"]
+    ],
+    ["#overlay .content .wordContainer .word",
+        ["background", "#2f2f2f"]
+    ],
+    ["#overlay .content .wordContainer .word:hover",
+        ["background", "#3c3c3c"]
+    ]
 ])
