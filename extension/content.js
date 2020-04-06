@@ -1,10 +1,18 @@
-// Init
-var modLoaderWatermark = document.createElement("div")
-modLoaderWatermark.id = "tos"
-modLoaderWatermark.innerHTML = "<a href='https://github.com/Crystalflxme/skribbl-mod-loader'>Skribbl Mod Loader</a><small> - v0.0.1 - By Crystalflame & xhex88</small>"
-document.body.appendChild(modLoaderWatermark)
-
+(async function () {
 // Dark Mode
+const htmlRequest = await fetch('https://skribbl.io/')
+const html = await htmlRequest.text()
+const sourceCodeRequest = await fetch("https://skribbl.io/js/game.js")
+const sourceCode = await sourceCodeRequest.text()
+function patchSourceCode(sourceCode) {
+    sourceCode = sourceCode.replace('t.id == this.myID && e.find(".name").css("color", "blue"),', "")
+    return sourceCode
+}
+let sourceCodeChanges = patchSourceCode(sourceCode)
+// document.open()
+// document.write(html.replace('<script src="js/game.js"></script>', "<script>" + sourceCodeChanges + "</script>"))
+// document.close()
+
 function addStylesheetRules(rules) {
     var styleEl = document.createElement("style")
     document.head.appendChild(styleEl)
@@ -133,3 +141,10 @@ addStylesheetRules([
         ["background", "#3c3c3c"]
     ]
 ])
+
+// Watermark
+var modLoaderWatermark = document.createElement("div")
+modLoaderWatermark.id = "tos"
+modLoaderWatermark.innerHTML = "<a href='https://github.com/Crystalflxme/skribbl-mod-loader'>Skribbl Mod Loader</a><small> - v0.0.1 - By Crystalflame & xhex88</small>"
+document.body.appendChild(modLoaderWatermark)
+})()
