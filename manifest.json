@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "Skribbl Mod Loader",
+  "version": "0.0.1",
+  "description": "A Chrome extension designed to load skribbl.io mods.",
+  "background": {
+    "script": "background.js"
+  },
+  "content_scripts": [{
+    "matches": ["*://*.skribbl.io/*"],
+    "js": ["content.js"]
+  }],
+  "icons": {
+    "16": "assets/images/icon16.png",
+    "32": "assets/images/icon32.png",
+    "48": "assets/images/icon48.png",
+    "128": "assets/images/icon128.png"
+  },
+
+
+  "web_accessible_resources": [
+    "mods/dark-mode/main.js"
+  ]
+}
