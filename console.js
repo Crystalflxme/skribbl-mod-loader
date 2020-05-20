@@ -1,14 +1,4 @@
-// Settings
-var modsToLoad = ["mods/dark-mode/main.js"]
-
-// Watermark
-var modLoaderWatermark = document.createElement("div")
-modLoaderWatermark.id = "tos"
-modLoaderWatermark.marginTop = "10px"
-modLoaderWatermark.innerHTML = "<a href='https://github.com/Crystalflxme/skribbl-mod-loader'>Skribbl Mod Loader</a><small> - v1.0 - By Crystalflame</small>"
-document.body.appendChild(modLoaderWatermark)
-
-// Console
+// Create UI
 var consoleParentFrame = document.createElement("div")
 consoleParentFrame.style.marginTop = "20px"
 consoleParentFrame.style.height = "400px"
@@ -84,21 +74,20 @@ commandSubmit.style.padding = "4px"
 commandSubmit.style.color = "#ccc"
 commandLineRow.appendChild(commandSubmit)
 
-function output(string) {
-    console.log("[SKRIBBL MOD LOADER] " + string)
-    outputFrame.innerHTML = string + "<br/>" + outputFrame.innerHTML
-}
-
+// UI Code
 commandSubmit.onclick = function() {
     var input = commandLine.value
     var args = input.split(" ")
     var success = true
     if (args[0] == "echo") {
         args.shift()
-        output(args.join(" "))
-    } else if (args[0] == "reloadmods") {
+        consoleOutput(`<span style='color: #ccc'>${args.join(" ")}</span>`)
+    } else if (args[0] == "help") {
+        consoleOutput(`<span style='color: #ccc'>Commands: echo {text} - Print the given text into the console | reload - Reloads the page and mods | help - Gives command instructions</span>`)
+    } else if (args[0] == "reload") {
         reloadMods(false)
     } else {
+        consoleOutput(`<span style='color: #f5302a'>Error reconizing command "${args[0]}"</span>`)
         success = false
     }
     if (success) {commandLine.value = ""}
@@ -110,30 +99,18 @@ commandLine.addEventListener("keyup", function(event) {
     }
 })
 
-// Load Mods
-var changes = false
-function load(path) {
-    (async () => {
-        output("<b style='color: #fff81f'>Loading mod path: " + path)
-        const modSource = chrome.runtime.getURL(path)
-        const mod = await import(modSource)
-        const modDetails = mod.getDetails()
-        mod.executeMod()
-        output("<b style='color: #28fb0e'>Executed mod " + modDetails.ModName + " " + modDetails.ModVersion + " by " + modDetails.ModAuthor)
-    })()
+// Console Functions
+function consoleOutput(string) {
+    console.log("[SKRIBBL MOD LOADER CONSOLE] " + string)
+    outputFrame.innerHTML = string + "<br/>" + outputFrame.innerHTML
 }
-function reloadMods(init) {
-    if (init) {
-        changes = false
-        modsToLoad.forEach(function(path) {
-            changes = true
-            load(path)
-        })
-        if (changes) {document.title = "skribbl.io (Modded)"} else {document.title = "skribbl.io"}
+
+// Receive Console Requests
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.from != "loader") {
+        consoleOutput("<b>[" + request.from + "]</b> " + request.message)
     } else {
-        document.write("<center><h1>Reloading mods...</h1></center>")
-        document.title = "Reloading mods..."
-        location.reload()
+        consoleOutput(request.message)
     }
-}
-reloadMods(true)
+})
+chrome.runtime.sendMessage({from: "console"})
